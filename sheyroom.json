@@ -1,0 +1,44 @@
+[
+
+    {
+        "name":"SPOT ON 3425 Hotel Shiva sai Loadge",
+        "imageurls":["http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/597f0e48823f8885.jpg",
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/06883e94ec59702e.jpg",
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/91dead74a5dffa61.jpg"
+        ],
+        "rentperday":1500,
+        "type":"Deulux",
+        "maxcount":3,
+        "phonenumber":9999999,
+        "currentbookings":[],
+        "description":"lorem ipsum dolor sit amet, consectetur adip"
+    },
+    {
+        "name":"SPOT ON 37825 Hotel Shiva sai Loadge",
+        "imageurls":[
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/91dead74a5dffa61.jpg",
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/597f0e48823f8885.jpg",
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/06883e94ec59702e.jpg"
+        ],
+        "rentperday":1500,
+        "type":"Deulux",
+        "maxcount":7,
+        "phonenumber":9999999,
+        "currentbookings":[],
+        "description":"lorem ipsum dolor sit amet, consectetur adip"
+    },
+    {
+        "name":"SPOT ON 456 Hotel Shiva sai Loadge",
+        "imageurls":[
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/06883e94ec59702e.jpg",
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/597f0e48823f8885.jpg",
+            "http://images.oyoroomscdn.com/uploads/hotel_image/56303/medium/91dead74a5dffa61.jpg"
+        ],
+        "rentperday":1500,
+        "type":"Deulux",
+        "maxcount":5,
+        "phonenumber":9999999,
+        "currentbookings":[],
+        "description":"lorem ipsum dolor sit amet, consectetur adip"
+    }
+]
