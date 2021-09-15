@@ -13,5 +13,6 @@ mongoose.connect(CONNECTION_URL,{}).then(()=>console.log("connectd to mongoDB"))
 .catch(error=>console.log(error))
 
 app.use('/api/rooms', require('./router/roomRouter'))
+app.use('/api/auth', require('./router/authRoutes'))
 
 app.listen(PORT, ()=>console.log(`server is running on http://localhost:${PORT}`))
