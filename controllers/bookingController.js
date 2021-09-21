@@ -39,6 +39,36 @@ const bookingController = {
             console.log(error.message)
             res.status(500).send({message: error.message}) 
         }
+    },
+    getBookingsByUserId:async(req, res) => {
+        const {id} = req.body
+
+        try {
+            const myBookings= await Booking.find({userId: id});
+            return res.status(200).json(myBookings)
+        } catch (error) {
+            return res.status(500).json({message: error.message})
+        }
+    },
+    cancelBookingById: async(req, res)=>{
+        const {bookingId, roomId} = req.body
+
+        try {
+            const booking = await Booking.findOne({_id: bookingId})
+            booking.status="cancel"
+            booking.save()
+
+            const room  = await Room.findOne({_id: roomId})
+            if(!room) return res.status(400).send({message: "no room found"})
+            const bookings = room.currentbookings
+            const temp = bookings.filter(x=> String(x._id)!== String(bookingId))
+            room.currentbookings =  temp
+            await room.save()
+            return res.status(200).json("canceld")
+        } catch (error) {
+            return res.status(500).json({message: error.message})
+            
+        }
     }
 
 }
