@@ -26,14 +26,12 @@ const roomController ={
         }
     },
     getRoomById: async(req, res)=>{
-        console.log(req.params)
         try {
             const room = await Room.findOne({_id:req.params.id});
             return res.status(200).send({room})
         } catch (error) {
             console.log(error.message)
             res.status(500).send({message: error.message})
-
         }
     },
 }
