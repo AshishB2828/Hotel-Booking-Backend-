@@ -1,7 +1,7 @@
 const Booking = require('../model/Booking')
 const Room = require('../model/Room')
 const moment = require('moment')
-const stripe = require('stripe')('sk_test_51JbpmqSDxmkhmiTDm2S424fDoHI8nzYWqAnw2cozAvQCiRtH0HEKZDesB8zfNN28vWDkkotsrpppPruPcLE4BRca00hqQIc40i')
+const stripe = require('stripe')(process.env.STRIPE)
 const {v4: uuidv4} =require('uuid') 
 
 const bookingController = {
@@ -17,9 +17,9 @@ const bookingController = {
             const customer = await stripe.customers.create({
                 email: token.email, source: token.id
             })
-
+            const totalAmount = req.body.totalAmount * 10
             const payment = await stripe.charges.create({
-                amount: req.body.totalAmount * 10,
+                amount: totalAmount,
                 customer: customer.id,
                 currency: 'inr',
                 receipt_email: token.email

@@ -37,7 +37,7 @@ const authController ={
             const isMatch = await bcrypt.compare(password, user.password)
             if(!isMatch) return res.status(400).send({user,message:"incorrect username and password"})
 
-            const token = jwt.sign({id: user._id, isAdmin:user.isAdmin}, "TOKENSTRING", {expiresIn:'1d'})
+            const token = jwt.sign({id: user._id, isAdmin:user.isAdmin}, process.env.JWT, {expiresIn:'1d'})
 
             return res.status(200).send({...user._doc, password:"", token})
         } catch (error) {

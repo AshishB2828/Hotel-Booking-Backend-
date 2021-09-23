@@ -9,7 +9,7 @@ const isAuth = async(req, res, next)=>{
     const token = bearerToken.substring(7)
     if(!token.trim()) return res.status(401).send({message: "provide a valid token"})
 
-    const decoded = jwt.decode(token, "TOKENSTRING")
+    const decoded = jwt.decode(token, process.env.JWT)
     if(!decoded) return res.status(401).send({message:"no token"})
     const id = decoded.id
     try {
