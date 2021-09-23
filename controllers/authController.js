@@ -19,7 +19,7 @@ const authController ={
             const hashedPassword = await bcrypt.hash(req.body.password, 12)
             const newUser = new User({...req.body, password:hashedPassword})
             await newUser.save()
-            return res.status(200).send({newUser, message:"registarion success"})
+            return res.status(200).send({message:"registarion success"})
         } catch (error) {
             res.status(500).send({message: error.message})
         }
