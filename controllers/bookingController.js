@@ -7,9 +7,13 @@ const {v4: uuidv4} =require('uuid')
 const bookingController = {
 
     bookRoom:async(req, res)=>{
-            const {token} = req.body
-            
+
+            const {room,roomId,userId,fromDate,toDate,totalDays, totalAmount,token} = req.body
+            if(!room || !roomId || !userId || !fromDate || !toDate || !totalDays || !totalAmount || !token)
+            return res.status(400).json({message: "Booking Faild"})
+            if(req.user.id !== userId) return res.status(403).send({message:"Permission Denied!"})
         try {
+            if(!token.email) return res.status(400).json({message: "Booking Failed"})
             const customer = await stripe.customers.create({
                 email: token.email, source: token.id
             })
@@ -24,7 +28,6 @@ const bookingController = {
             if(payment){
                 const newBooking = new Booking({
                     ...req.body, transactionId: '123456', 
-                    // fromDate: moment(req.body.fromDate).format('DD-MM-YYYY'),
                     fromDate: req.body.fromDate,
                     toDate: req.body.toDate,
                 })
@@ -34,7 +37,7 @@ const bookingController = {
                 await room.save()
                 return res.status(200).send({message:"Payment succefull, room Booked", payment})
             }
-            return res.status(201).send({message:"something went wrong, try again latter"})
+            return res.status(400).send({message:"something went wrong, try again latter"})
         } catch (error) {
             console.log(error.message)
             res.status(500).send({message: error.message}) 
@@ -42,6 +45,9 @@ const bookingController = {
     },
     getBookingsByUserId:async(req, res) => {
         const {id} = req.body
+        if(!id) return res.status(400).send({message:"Please provide a valid User ID"})
+       
+        if(req.user.id !== id) return res.status(403).send({message:"Permission Denied!"})
 
         try {
             const myBookings= await Booking.find({userId: id});
@@ -52,14 +58,24 @@ const bookingController = {
     },
     cancelBookingById: async(req, res)=>{
         const {bookingId, roomId} = req.body
+        
+        if(!roomId) return res.status(400).send({message:"roomId required"})
+        if(!bookingId) return res.status(400).send({message:"bookingId required"})
+
+        // if(req.user.id !== userId) return res.status(403).send({message:"Permission Denied!"})
 
         try {
-            const booking = await Booking.findOne({_id: bookingId})
-            booking.status="cancel"
-            booking.save()
 
             const room  = await Room.findOne({_id: roomId})
             if(!room) return res.status(400).send({message: "no room found"})
+
+            const booking = await Booking.findOne({_id: bookingId})
+            if(!booking) return res.status(400).send({message:"No booking exist"})
+
+            booking.status="cancel"
+            booking.save()
+
+           
             const bookings = room.currentbookings
             const temp = bookings.filter(x=> String(x._id)!== String(bookingId))
             room.currentbookings =  temp
@@ -68,6 +84,14 @@ const bookingController = {
         } catch (error) {
             return res.status(500).json({message: error.message})
             
+        }
+    },
+    getAllBookings:async(req, res)=>{
+        try {
+            const allBookings = await Booking.find()
+            return res.status(200).json(allBookings)
+        } catch (error) {
+            return res.status(500).json({message: error.message})
         }
     }
 
